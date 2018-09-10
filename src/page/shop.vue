@@ -103,7 +103,15 @@
                    
                 </div>
             </transition>
-            
+            <div class="loading_container" v-if="show_load_img">
+                <div  class="load_img" :style="{backgroundPositionY: -(positionY%7)*2.5 + 'rem'}"></div>
+                <svg class="load_ellipse" xmlns="http://www.w3.org/2000/svg" version="1.1">
+                    <ellipse cx="26" cy="10" rx="26" ry="10" style="fill:#ddd;stroke:none;"></ellipse>
+                </svg>
+            </div>
+            <section class="animation_opactiy  shop_back_svg_container" v-if="show_shop_back">
+                <img src="../assets/img/shop.png" alt="">
+            </section>
 
         </div>
         <div class="buy_cart_container">
@@ -120,6 +128,7 @@
                 <span class="ft20">去结算</span>
             </div>
         </div>
+        
 
     </div>
 </template>
@@ -143,7 +152,11 @@ export default {
       ratingTags:[],//评价标签
       currentTag:0,
       commentList:[],//商品评价列表
-      top:''
+      top:'',
+      positionY:0,
+      timer:null,
+      show_shop_back:false,//背景图片
+      show_load_img:false,//图片
     };
   },
   updated:function(){
@@ -161,6 +174,12 @@ export default {
     //   this.scroll3 = new BScroll(this.$refs.evaluteWrap, {
     //     click: true
     //   });
+    this.timer = setInterval(() => {
+        this.positionY ++;
+    }, 600);
+    window.addEventListener('scroll',function(){
+        debugger
+    })
       
     });
     this.shopId = this.$route.query.id;
@@ -195,6 +214,9 @@ export default {
     //商品、评价切换
       changeShowType(item){
           this.currentBar = item;
+          this.scroll2.on('scroll',(pos) =>{
+              debugger
+          })
       },
       //获取评价标签
       getTags(){
@@ -225,4 +247,32 @@ export default {
 
 <style lang="scss" scoped>
 @import "../assets/css/shop.scss";
+@keyframes load {
+    0%{transform: translateY(0px)}
+    50%{transform: translateY(50px)}
+    100%{transform: translateY(100px)}
+}
+@keyframes ellipse{
+    0%   {transform: scale(1);}
+    50%  {transform: scale(0.3);}
+    100% {transform: scale(1);}
+}
+.load_img{
+     width: 100%;
+     height: 100%;
+     background: url('../assets/img/icon_loading.png');
+     background-size: 2.5rem auto;
+     transform: translateY(0px);
+     animation: load .6s infinite ease-in-out;
+     position: relative;
+ }
+ .load_ellipse{
+     position: absolute;
+     width: 2.6rem;
+     height: 2rem;
+     top: 6.2rem;
+     left: 0.25rem;
+     animation: ellipse .6s infinite ease-in-out;
+
+ }
 </style>
