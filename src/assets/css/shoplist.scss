@@ -1,0 +1,91 @@
+$ft24:.24rem;
+$ft4:.4rem;
+$blue:#3190e8;
+$co999:#999;
+.shop_ul{
+    clear: both;
+    overflow: hidden;
+    background: white;
+    .shop_li {
+        display: flex;
+        padding: 0.7rem 0.4rem!important;
+        border-bottom: 0.025rem solid #f1f1f1;
+        hgroup{
+            flex: auto
+        }
+    }
+}
+.shop_img{
+    width: 50px;
+    height: 50px;
+    float: left;
+}
+.shop_header{
+    display: flex;
+    justify-content: space-between;
+    h4{
+        font-size: $ft24;
+        float: left;
+        margin-left: 20px
+    }
+    .detail_ul{
+        display: flex;
+        li{
+            display: inline-block;
+            font-size: $ft24;
+            color: $co999;
+            margin: 2px;
+            flex: 1
+        }
+    }
+}
+.shop_star{
+    display: flex;
+    font-size: .4rem;
+    justify-content: space-between;
+    section{
+        display: flex;
+    }
+    .delivery_style{
+        margin: 0 2px
+    }
+    .delivery_left{
+        color: white;
+        background: $blue;
+        border-radius: 0 2px;
+        padding: 0 2px
+    }
+    .delivery_right{
+        color: $blue;
+        border: 0.025rem solid $blue;
+    }
+}
+// 星星
+.detail_star{
+    .weui-cells{
+        margin-top: 0!important;
+        line-height: 0;
+        background-color:transparent;
+        .weui-cell{
+            margin: 0;
+            padding: 0;
+        }
+    }
+    .weui-cells:before{
+        border-top: none;
+        border-bottom: none;
+    }
+    .weui-cells:after{
+        border-top: none;
+        border-bottom: none;
+    }
+}
+// 配送时间
+.delivery_time{
+    font-size: .4rem;
+    display: flex;
+    justify-content: space-between;
+    .delivery_time_right span:nth-child(2){
+        color: $blue;
+    }
+}

@@ -1,0 +1,236 @@
+.top_nav{
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.shop_top{
+    background: rgba(119, 103, 137, 0.43);
+    padding:.3rem;
+    display: flex;
+    .shop_top_left{
+        img{
+            width: 3rem;
+            height: 3rem;
+        }
+        
+    }
+    .shop_top_right{
+        font-size: 0.5rem;
+        color: white;
+        text-align: left;
+        margin-left: .5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly
+
+    }
+}
+.out_wrap{
+    position: relative;
+    height: 100%;
+    width: 100%
+}
+.shop_container{
+    display: flex;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top:0;
+    bottom: 0;
+    overflow: hidden;
+    // width: 100%;
+    .content_left{
+        // width: 3.8rem;
+        font-size: 15px;
+        ul{
+            // width: 3.8rem;
+        }
+        li{
+            padding: .7rem .3rem
+        }
+        li.on{
+            background: white;
+            border-left: 2px #3190e8 solid;
+        }
+    }
+    // 右边BScroll
+    .content_right{
+        // flex: 4;
+        width: 100%;
+        .right_ul{
+            li{
+                font-size: 0.6rem;
+                header{
+                    text-align: left;
+                    height: 1.5rem;
+                    line-height: 1.5rem;
+                    span{
+                        font-size: .4rem;
+                    }
+                }
+                .munuContent{
+                    display: flex;
+                    background: white;
+                    padding: 0.5rem 0 .5rem 0.5rem;
+                    flex-direction: column;
+                    .munuDetail_link{
+                        display: flex;
+                        .munuStyle{
+                            display: flex;
+                            flex-direction: column;
+                            flex: auto;
+                            text-align: left;
+                            margin-left: 10px;
+                            .product{
+                                font-size: .4rem
+                            }
+                        }
+                    }
+                    footer{
+                        display: flex;
+                        margin: .4rem 0.4rem 0 2.4rem;
+                        justify-content: space-evenly
+                    }
+                }
+                .munuDetail_link{
+                    img{
+                        width: 50px;
+                        height: 50px;
+                    }
+                }
+            }
+        
+        }
+        
+    }
+}
+// 评价页面
+.evaluate_top{
+    display: flex;
+    padding: 1rem 0;
+    justify-content: space-evenly;
+    background: white;
+    .eva_left{
+        text-align: center;
+        display: flex;
+        flex-direction:column;
+        justify-content: space-around;
+        .score{
+            font-size: 1rem;
+        }
+        .zongh{
+            font-size: 0.65rem;
+        }
+        .compete{
+            font-size:.4rem;
+        }
+    }
+    .eva_right{
+        font-size: 0.5rem;
+        display: flex;
+        justify-content: space-around;
+        flex-direction: column;
+    }
+}
+.evaluate_content{
+    margin-top: .4rem;
+    padding: .5rem;
+    background: white;
+    .evalute_content_ul{
+        text-align: left;
+        li{
+            display: inline-block;
+            font-size: .5rem;
+            color: #6d7885;
+            background: #ebf5ff;
+            
+            margin: 0 .4rem .2rem 0;
+            border-radius: 0.2rem;
+            padding: .2rem;
+        }
+        .tag{
+            background: #3190e8;
+            color: white;
+        }
+    }
+}
+// 评论列表
+.commentList{
+    .commentList_li{
+        margin-top: .5rem;
+        .comment_detail_list{
+            display: flex;
+            dt{
+                img{
+                    width: 40px;    
+                    height: 40px;
+                    border-radius: 40px;
+                }
+            }
+            dd{
+                font-size: .4rem;
+                text-align: left;
+                margin-left: 1rem;
+                flex: auto;
+                display: flex;
+                flex-direction: column;
+                div{
+                    margin-bottom: .15rem;
+                    img{
+                        margin-right: .4rem;
+                    }
+                }
+                .time{
+                    display: flex;
+                    justify-content: space-between
+                }
+            }
+        }
+    }
+
+}
+.wellTag{
+    color: #999;
+    border: 1px #ddd solid;
+    border-radius:6px;
+    padding: .15rem;
+    width: 1.8rem;
+    display: inline-block;
+    margin-right: .2rem;
+}
+// 底部购物车
+.buy_cart_container{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    background: #3d3d3f;
+    color: white;
+    .cart_left{
+        flex: 2;
+        justify-content: space-around;
+    }
+    .cart_right{
+        flex: 1;
+
+    }
+    .cart_right.activity{
+        background: #4cd964;
+    }
+}
+.icon-gouwuche{
+    position: absolute;
+    left: 1rem;
+    top: -1rem;
+    display: block;
+    background: #3190e8;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    line-height: 50px;
+}

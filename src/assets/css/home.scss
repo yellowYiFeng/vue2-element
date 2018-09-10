@@ -1,0 +1,50 @@
+.bg {
+    background: #3190e8;
+    color: white;
+    justify-content: space-between;
+  }
+  .city_tip {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 0.45rem;
+    line-height: 1.45rem;
+  }
+  .city_tip div:nth-child(1) {
+    font-size: 0.55rem;
+    color: #666;
+  }
+  .city_tip div:nth-child(2) {
+    font-size: 0.475rem;
+    color: #9f9f9f;
+    font-weight: 900;
+  }
+  .hotcity{
+      clear: both;
+      overflow: hidden;
+      background: white;
+      
+  }
+  .hotcity.hot_color li{
+    color: #666
+}
+  .hotcity li{
+      float: left;
+      height: 2.5rem;
+      line-height: 2.5rem;
+      color: #3190e8;
+      border-bottom: 0.025rem solid #e4e4e4;
+      border-right: 0.025rem solid #e4e4e4;
+      width: 25%;
+      box-sizing: border-box;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font: 0.6rem/1.75rem "Microsoft YaHei"
+  }
+  .font-city{
+      font:0.55rem/1.45rem "Helvetica Neue"
+  }
+  section{
+      clear: both;
+  }
