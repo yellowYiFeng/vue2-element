@@ -28,10 +28,12 @@
 .w100{width: 100px}
 .h50{height: 50px;}
 .h60{height: 60px;}
+.ml20{margin-left:20px}
 .ellipsis{overflow: hidden;text-overflow:ellipsis;white-space: nowrap}
 .pa{position: absolute;}
 .fx1{flex: 1}
 .fxauto{flex: auto}
+.overflow{overflow: hidden;}
 $ft24:.24rem;
 $ft4:.4rem;
 $blue:#3190e8;

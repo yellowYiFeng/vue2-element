@@ -17,6 +17,7 @@
     "better-scroll": "^1.12.6",
     "element-ui": "^2.4.5",
     "stylus": "^0.54.5",
+    "viewerjs": "^1.2.0",
     "vue": "^2.5.2",
     "vue-axios": "^2.1.3",
     "vue-router": "^3.0.1",

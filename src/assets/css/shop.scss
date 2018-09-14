@@ -228,12 +228,16 @@
     left: 1rem;
     top: -1rem;
     display: block;
-    background: #3190e8;
+    background: gray;
     width: 50px;
     height: 50px;
     border-radius: 50px;
     line-height: 50px;
 }
+.icon-gouwuche.gouwuche_color{
+    background: #3190e8;
+}
+
 .shop_back_svg_container{
     position: fixed;
     width: 100%;
@@ -260,6 +264,12 @@
      position: fixed;
      left: 50%;
      top: 50%;
+
+ }
+ .isLoading_box{
+     display: inline-block;
+     text-align: center;
+     margin-top: 50%;
 
  }
  

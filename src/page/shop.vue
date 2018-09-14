@@ -1,6 +1,6 @@
 <template>
     <div class="top_nav">
-        <div>
+        <div ref="top_wrap">
             <div class="shop_top">
             <div class="shop_top_left">
                 <img src="http://img.zcool.cn/community/0117e2571b8b246ac72538120dd8a4.jpg@1280w_1l_2o_100sh.jpg" alt="">
@@ -18,7 +18,7 @@
         </div>
         </div>
         <div class="out_wrap" ref="out_wrap">
-            <transition>
+            <transition name="fade-choose">
                 <div class="shop_container" v-show="currentBar === '商品'">
                     <div class="content_left" ref="menuWrapper">
                         <ul>
@@ -37,7 +37,7 @@
                                             <div>
                                                 <img :src="imgBaseUrl+foodItem.image_path" alt="" />
                                             </div>
-                                            <div class="">
+                                            <div class="tl ml20">
                                                 <strong>{{foodItem.name}}</strong>
                                                 <div class="product">{{foodItem.description}}</div>
                                                 <div class="ft12">{{foodItem.tips}}</div>
@@ -47,9 +47,7 @@
                                             <div class="orange fx1 tl">
                                                 {{foodItem.specfoods[0].price}}
                                             </div>
-                                            <div class="fxauto">
-                                                <i class="iconfont icon-yuanquanjiahao"></i>
-                                            </div>
+                                            <buy-cart @downball="movedot"></buy-cart>
                                         </footer>
                                     </section>
                                 </li>
@@ -57,7 +55,7 @@
                     </div>
                 </div>
             </transition>
-            <transition>
+            <transition name="fade-choose">
                 <div class="pa shop_container" style="overflow:scroll" v-show="currentBar === '评价'" ref="evaluteWrap">
                     <div>
                         <section class="evaluate_top">
@@ -67,7 +65,10 @@
                                 <p class="compete">高于周边商家</p>
                             </div>
                             <div class="eva_right">
-                                <p>服务态度</p>
+                                <p>
+                                    <span>服务态度</span>
+                                    <star-wrap :rating='shopDetailData.rating'></star-wrap>
+                                </p>
                                 <p>菜品评价</p>
                                 <p>送达时间</p>
                             </div>
@@ -89,7 +90,7 @@
                                             </div>
                                             <div>{{item.time_spent_desc}}</div>
                                             <div>
-                                                <img v-if="(item_img.image_hash)" v-for="(item_img,index) in item.item_ratings" class="w60 h60" :src="getImgPath(item_img.image_hash)" alt="">
+                                                <img @click="enlargeImg" v-if="(item_img.image_hash)" v-for="(item_img,index) in item.item_ratings" class="w60 h60" :src="getImgPath(item_img.image_hash)" alt="">
                                             </div>
                                             <div>
                                                 <div v-for="(item_img,index) in item.item_ratings" class="wellTag ellipsis">{{item_img.food_name}}</div>
@@ -99,10 +100,14 @@
                                 </li>
                             </ul>
                         </section>
+                        
                     </div>
-                   
                 </div>
             </transition>
+            <div class="isLoading_box">
+                <load-more v-if="showLoad" tip="正在加载"></load-more>
+                <load-more v-if="hasEvalateList" :show-loading="false" tip="暂无数据" background-color="#fbf9fe"></load-more>
+            </div>
             <div class="loading_container" v-if="show_load_img">
                 <div  class="load_img" :style="{backgroundPositionY: -(positionY%7)*2.5 + 'rem'}"></div>
                 <svg class="load_ellipse" xmlns="http://www.w3.org/2000/svg" version="1.1">
@@ -112,12 +117,11 @@
             <section class="animation_opactiy  shop_back_svg_container" v-if="show_shop_back">
                 <img src="../assets/img/shop.png" alt="">
             </section>
-
         </div>
         <div class="buy_cart_container">
             <div class="cart_left">
                 <div class="cart_icon">
-                    <i class="iconfont icon-gouwuche"></i>
+                    <i class="iconfont icon-gouwuche" :class="{gouwuche_color:cartActivity==true}"></i>
                 </div>
                 <div>
                     <div class="ft20">￥20.00</div>
@@ -134,8 +138,12 @@
 </template>
 
 <script>
+import buyCart from '../components/buycart'
+import starWrap from '../components/star'
 import BScroll from "better-scroll";
 import {mixnis} from '../util/utils.js'
+import Viewer from 'viewerjs';
+import 'viewerjs/dist/viewer.css';
 export default {
   data() {
     return {
@@ -152,13 +160,24 @@ export default {
       ratingTags:[],//评价标签
       currentTag:0,
       commentList:[],//商品评价列表
-      top:'',
       positionY:0,
       timer:null,
       show_shop_back:false,//背景图片
       show_load_img:false,//图片
+      elLeft:0,
+      elBottom:0,
+      cartActivity:false,
+      offset:0,
+      showLoad:false,//是否显示正在加载
+      hasEvalateList:false,//是否有数据
+      shopDetailData:{},//店铺信息
     };
   },
+  components:{
+      buyCart,
+      starWrap
+  },
+
   updated:function(){
     this.getScrollHeight();
   },
@@ -171,36 +190,27 @@ export default {
       this.scroll2 = new BScroll(this.$refs.rightWrapper, {
         click: true
       });
-    //   this.scroll3 = new BScroll(this.$refs.evaluteWrap, {
-    //     click: true
-    //   });
     this.timer = setInterval(() => {
         this.positionY ++;
     }, 600);
-    window.addEventListener('scroll',function(){
-        debugger
-    })
-      
     });
     this.shopId = this.$route.query.id;
     this.getMenuList();
     this.getTags();
     this.getcommentList();
-    window.addEventListener('scroll',this.handleScroll)
-    this.top = this.$refs.out_wrap.offsetTop;
+    this.$refs.evaluteWrap.addEventListener('scroll',this.handleScroll)
+    this.getShopData();
+
+    
   },
   methods: {
       changeMunu(index,id){
           this.menuIndex = index;
           this.scroll2.scrollTo(0, -this.heightList[index], 400);
-
-
       },
       getMenuList(){
           this.$axios.get('shopping/v2/menu?restaurant_id='+this.shopId,).then(res=>{
               this.menuList = res.data;
-              
-
           })
       },
       getScrollHeight(){
@@ -209,13 +219,11 @@ export default {
           for(var key in arrlist){
             this.heightList[key] = arrlist[key].offsetTop;
           }
-        //   console.log(this.heightList);
       }, 
     //商品、评价切换
       changeShowType(item){
           this.currentBar = item;
           this.scroll2.on('scroll',(pos) =>{
-              debugger
           })
       },
       //获取评价标签
@@ -231,16 +239,48 @@ export default {
       },
       //商品评价列表
       getcommentList(){
-          this.$axios.get('ugc/v2/restaurants/'+this.shopId+'/ratings').then(res=>{
-              this.commentList = res.data;
+          this.showLoad = true;
+          this.$axios.get('ugc/v2/restaurants/'+this.shopId+'/ratings?offset='+this.offset+'&limit=10').then(res=>{
+              this.showLoad = false;
+              if(res.data.length == 0){
+                  this.hasEvalateList = true;
+              }
+              for(var key in res.data){
+                  this.commentList.push(res.data[key]);
+              }
+              
           })
       },
       //监听浏览器滚动条滚动
       handleScroll(){
-           var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-            // console.log(scrollTop)   
+        let scrollTop = this.$refs.evaluteWrap.scrollTop;
+        let scrollHeight  = this.$refs.evaluteWrap.scrollHeight;
+        let screanHeight  = window.innerHeight-this.$refs.top_wrap.offsetHeight;
+        if(scrollTop+screanHeight==scrollHeight){
+            this.offset += 10;
+            this.getcommentList()
+        }
       },
-   
+      //添加购物车时小圆点下落
+      movedot(balls){
+          for (var key in balls){
+              if(balls[key].show){
+                  this.cartActivity = true;
+              }
+
+          }
+      },
+      enlargeImg(event){
+          var viewer = new Viewer(event.target.parentNode, {
+            navbar: false,  
+            scalable: false
+        });
+      },
+      getShopData(){
+          this.$axios.get('shopping/restaurant/'+this.shopId+'?latitude='+this.store.state.latitude+'&longitude='+this.store.state.longitude+'&extras[]=activities&extras[]=album&extras[]=license&extras[]=identification&extras[]=statistics').then(res=>{
+              this.shopDetailData = res.data;
+          })
+      }
   }
 };
 </script>
@@ -257,6 +297,21 @@ export default {
     50%  {transform: scale(0.3);}
     100% {transform: scale(1);}
 }
+@keyframes cartDown {
+    0% {transform:translateX(0px),translateY(0px)}
+    100% {transform:translateX(0px),translateY(0px)}
+}
+//页面切换动画效果
+.fade-choose-enter-active, .fade-choose-leave-active {
+    transition: opacity .5s;
+}
+.fade-choose-leave, .fade-choose-leave-active {
+    display: none;
+}
+.fade-choose-enter, .fade-choose-leave-active {
+    opacity: 0;
+}
+
 .load_img{
      width: 100%;
      height: 100%;

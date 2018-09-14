@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-import { Cell,CellBox,Group,Grid, GridItem,XHeader,XInput,XButton,Swiper,SwiperItem,Tabbar,TabbarItem,Rater,Tab, TabItem }  from 'vux'
+import { Cell,CellBox,Group,Grid, GridItem,XHeader,XInput,XButton,Swiper,SwiperItem,Tabbar,TabbarItem,Rater,Tab,TabItem,LoadMore  }  from 'vux'
 import './util/axios'
 import util from './util/utils'
 import store from './store/index'
@@ -29,6 +29,7 @@ Vue.component('tabbar-item', TabbarItem)
 Vue.component('rater', Rater)
 Vue.component('tab', Tab)
 Vue.component('tab-item', TabItem)
+Vue.component('load-more', LoadMore)
 // Vue.component('icon ', Icon)
 /* eslint-disable no-new */
 new Vue({
